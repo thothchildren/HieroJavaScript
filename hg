@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+var parser = require("./parser");
+var escodegen = require("escodegen");
+var fs = require("fs");
+
+var filename = process.argv[2];
+fs.readFile(filename, "utf8", function (err, data) {
+  if (err) throw err;
+  var parsedHg = parser.parse(data);
+  console.log(parsedHg);
+  const js_code = escodegen.generate(parsedHg);
+  console.log(js_code);
+  eval(js_code);
+});
